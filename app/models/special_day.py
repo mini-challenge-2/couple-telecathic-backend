@@ -1,12 +1,8 @@
 from app.db.session import Base
 import sqlalchemy as sa
 from sqlalchemy.sql import func
-import enum
 from sqlalchemy.orm import relationship
-
-class Type(enum.Enum):
-    counting = 'counting'
-    count_down = 'count_down'
+from app.utils.enum import Type
 
 class SpecialDay(Base):
     __tablename__ = 'special_days'
