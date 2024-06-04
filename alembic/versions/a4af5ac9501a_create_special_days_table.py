@@ -10,7 +10,7 @@ from typing import Sequence, Union
 import enum
 from alembic import op
 import sqlalchemy as sa
-
+from app.utils.enum import Type
 
 # revision identifiers, used by Alembic.
 revision: str = 'a4af5ac9501a'
@@ -18,9 +18,6 @@ down_revision: Union[str, None] = '3e62a41eba92'
 branch_labels: Union[str, Sequence[str], None] = None
 depends_on: Union[str, Sequence[str], None] = None
 
-class Type(enum.Enum):
-    counting = 'counting'
-    count_down = 'count_down'
 
 def upgrade() -> None:
     op.create_table(
