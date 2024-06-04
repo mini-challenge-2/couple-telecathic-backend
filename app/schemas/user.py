@@ -1,11 +1,11 @@
 from pydantic import BaseModel
 from datetime import datetime
 from datetime import date
-from app.utils.enum import Gender
+from app.utils.enum import Sex
 
 class UserBase(BaseModel):
     apple_id: str
-    gender: Gender
+    gender: Sex
     email: str
     birth: date
     latitude: float
