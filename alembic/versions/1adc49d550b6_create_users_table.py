@@ -35,5 +35,6 @@ def upgrade() -> None:
         sa.Column('created_at', sa.DateTime(timezone=True), server_default=sa.func.now()),
     )
 
+
 def downgrade() -> None:
     op.drop_table("users")
