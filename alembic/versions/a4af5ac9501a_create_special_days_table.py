@@ -7,6 +7,7 @@ Create Date: 2024-06-04 09:50:01.742504
 """
 from typing import Sequence, Union
 
+import enum
 from alembic import op
 import sqlalchemy as sa
 
@@ -17,7 +18,7 @@ down_revision: Union[str, None] = '3e62a41eba92'
 branch_labels: Union[str, Sequence[str], None] = None
 depends_on: Union[str, Sequence[str], None] = None
 
-class DayType(sa.Enum):
+class Type(enum.Enum):
     counting = 'counting'
     count_down = 'count_down'
 
@@ -28,8 +29,8 @@ def upgrade() -> None:
         sa.Column('connection_id', sa.Integer, nullable=False),
         sa.Column('date', sa.Date, nullable=False),
         sa.Column('description', sa.String(255), nullable=False),
-        sa.Column('type', DayType, nullable=False),
-        sa.Column('color', sa.String('8'), nullable=False),
+        sa.Column('type', sa.Enum(Type), nullable=False),
+        sa.Column('color', sa.String(8), nullable=False),
         sa.Column('created_at', sa.DateTime(timezone=True), server_default=sa.func.now()),
     )
 
