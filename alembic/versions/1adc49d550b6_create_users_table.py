@@ -27,13 +27,14 @@ def upgrade() -> None:
         sa.Column('id', sa.String(8), primary_key=True, index=True, unique=True),
         sa.Column('apple_id', sa.String(50), unique=True, nullable=False),
         sa.Column('username', sa.String(20), unique=True, nullable=False),
-        sa.Column('gender', sa.Enum(Gender), nullable=False),
+        sa.Column('gender', Gender, nullable=False),
         sa.Column('email', sa.String(50), unique=True, nullable=False),
         sa.Column('birth', sa.Date, nullable=False),
         sa.Column('latitude', sa.Float, nullable=False),
         sa.Column('longitude', sa.Float, nullable=False),
         sa.Column('created_at', sa.DateTime(timezone=True), server_default=sa.func.now()),
     )
+
 
 def downgrade() -> None:
     op.drop_table("users")
