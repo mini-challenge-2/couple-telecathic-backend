@@ -6,7 +6,7 @@ class ConnectionBase(BaseModel):
     partner_id: str
 
 class Connection(ConnectionBase):
-    id: str
+    id: int
     created_at: datetime
 
     class Config:

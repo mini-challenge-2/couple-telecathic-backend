@@ -6,7 +6,7 @@ class MessageBase(BaseModel):
     content: str
 
 class Message(MessageBase):
-    id: str
+    id: int
     created_at: datetime
 
     class Config:
