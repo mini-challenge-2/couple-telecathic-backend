@@ -9,33 +9,16 @@ from app.schemas import Response
 from app.utils.dependency import generate_uuid
 from app.schemas.special_day import SpecialDayBase
 from app.models.special_day import SpecialDay
+from app.services.user import UserService
+from .dependencies import get_user_service
 
 router = APIRouter()
 
 
 @router.post('/register')
-async def register(user: UserBase, db: Session = Depends(get_db)):
+async def create_user(user: UserBase, service: UserService = Depends(get_user_service)):
     try:
-        __uuid = generate_uuid()
-        if (db.query(UserModel).filter(UserModel.email == user.email).first()) or (db.query(UserModel).filter(UserModel.username == user.username).first()):
-            return Response(status=400, message="User already exists")
-
-        data = {
-            "id": __uuid,
-            "apple_id": user.apple_id,
-            "username": user.username,
-            "sex": user.sex.name,
-            "email": user.email,
-            "birth": user.birth,
-            "latitude": user.latitude,
-            "longitude": user.longitude
-        }
-
-        db_user = UserModel(**data)
-        db.add(db_user)
-        db.commit()
-        db.refresh(db_user)
-        return Response(status=201, message="User created successfully", data=db_user)
+        return await service.create_user(user)
     except Exception as e:
         return Response(status=500, message=str(e))
 
