@@ -10,5 +10,5 @@ class Connection(Base):
     partner_id = sa.Column(sa.String(8), sa.ForeignKey('users.id'), nullable=False)
     created_at = sa.Column(sa.DateTime, server_default=func.now())
 
-    user = relationship('User', backref='connections')
-    partner = relationship('User', backref='connections')
+    user = relationship('User', backref='connections_as_user', foreign_keys=[user_id])
+    partner = relationship('User', backref='connections_as_partner', foreign_keys=[partner_id])

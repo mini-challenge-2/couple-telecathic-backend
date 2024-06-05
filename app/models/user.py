@@ -7,7 +7,8 @@ class User(Base):
     __tablename__ = 'users'
     id = sa.Column(sa.String(8), primary_key=True, index=True, unique=True)
     apple_id = sa.Column(sa.String(50), unique=True, nullable=False)
-    gender = sa.Column(sa.Enum(Sex), nullable=False)
+    username = sa.Column(sa.String(20), unique=True, nullable=False)
+    sex = sa.Column(sa.Enum(Sex), nullable=False)
     email = sa.Column(sa.String(50), unique=True, nullable=False)
     birth = sa.Column(sa.Date, nullable=False)
     latitude = sa.Column(sa.Float, nullable=False)
