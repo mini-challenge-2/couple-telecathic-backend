@@ -7,6 +7,8 @@ from app.models.connection import Connection
 from app.db import get_db
 from app.schemas import Response
 from app.utils.dependency import generate_uuid
+from app.schemas.special_day import SpecialDayBase
+from app.models.special_day import SpecialDay
 
 router = APIRouter()
 
@@ -56,5 +58,28 @@ async def connect(connection: ConnectionBase, db: Session = Depends(get_db)):
         db.commit()
         db.refresh(db_connection)
         return Response(status=200, message="Connected successfully")
+    except Exception as e:
+        return Response(status=500, message=str(e))
+
+@router.post('/special-days/{user_id}')
+async def add_special_days(user_id: str, special_day: SpecialDayBase, db: Session = Depends(get_db)):
+    try:
+        connection = db.query(Connection).filter(Connection.user_id == user_id).first()
+        if not connection:
+            return Response(status=404, message="Connection not found")
+        
+        data = {
+            'connection_id': connection.id,
+            'date': special_day.date,
+            'description': special_day.description,
+            'type': special_day.type.name,
+            'color': special_day.color
+        }
+
+        db_special_day = SpecialDay(**data)
+        db.add(db_special_day)
+        db.commit()
+        db.refresh(db_special_day)
+        return Response(status=201, message="Special day added successfully", data=db_special_day)
     except Exception as e:
         return Response(status=500, message=str(e))

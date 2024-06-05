@@ -8,7 +8,7 @@ class SpecialDayBase(BaseModel):
     date: date
     description: str
     type: Type
-    colo: str
+    color: str
 
 class SpecialDay(SpecialDayBase):
     id: int
