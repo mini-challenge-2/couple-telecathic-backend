@@ -5,7 +5,8 @@ from app.utils.enum import Sex
 
 class UserBase(BaseModel):
     apple_id: str
-    gender: Sex
+    username: str
+    sex: Sex
     email: str
     birth: date
     latitude: float
@@ -13,7 +14,7 @@ class UserBase(BaseModel):
 
 class User(UserBase):
     id: str
-    created_at: datetime
+    created_at: datetime | None = datetime.now()
 
     class Config:
         orm_mode = True

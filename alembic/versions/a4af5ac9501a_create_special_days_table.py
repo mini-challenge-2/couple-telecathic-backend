@@ -45,3 +45,4 @@ def upgrade() -> None:
 def downgrade() -> None:
     op.drop_constraint("fk_special_days_connections_id", "special_days", type_="foreignkey")
     op.drop_table('special_days')
+    sa.Enum(Type).drop(op.get_bind(), checkfirst=False)
