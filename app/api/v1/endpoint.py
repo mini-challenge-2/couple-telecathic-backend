@@ -9,8 +9,11 @@ from app.schemas.special_day import SpecialDayBase
 from app.models.special_day import SpecialDay
 from app.services.user import UserService
 from app.services.connection import ConnectionService
+from app.schemas.interaction import InteractionBase
+from app.services.interaction import InteractionService
 from .dependencies import get_user_service
 from .dependencies import get_connection_service
+from .dependencies import get_interaction_service
 
 router = APIRouter()
 
@@ -58,5 +61,13 @@ async def add_special_days(user_id: str, special_day: SpecialDayBase, db: Sessio
         db.commit()
         db.refresh(db_special_day)
         return Response(status=201, message="Special day added successfully", data=db_special_day)
+    except Exception as e:
+        return Response(status=500, message=str(e))
+
+@router.post('/interactions')
+async def create_interaction(interaction: InteractionBase, service: InteractionService = Depends(get_interaction_service)):
+    try:
+        interaction = await service.create_interaction(interaction)
+        return Response(status=201, message="Interaction created successfully", value=interaction)
     except Exception as e:
         return Response(status=500, message=str(e))

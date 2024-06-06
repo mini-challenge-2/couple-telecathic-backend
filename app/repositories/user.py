@@ -27,4 +27,6 @@ class UserRepository:
         self.db.add(db_user)
         self.db.commit()
         self.db.refresh(db_user)
+        db_user = db_user.__dict__
+        del db_user['_sa_instance_state']
         return db_user

@@ -16,4 +16,6 @@ class InteractionRepository:
         self.db.add(db_interaction)
         self.db.commit()
         self.db.refresh(db_interaction)
+        db_interaction = db_interaction.__dict__
+        del db_interaction['_sa_instance_state']
         return db_interaction
