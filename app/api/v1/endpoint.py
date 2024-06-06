@@ -41,6 +41,14 @@ async def get_couple_data(user_id: str, service: ConnectionService = Depends(get
     except Exception as e:
         return Response(status=500, message=str(e))
 
+@router.get('/connection/{user_id}')
+async def get_connection(user_id: str, service: ConnectionService = Depends(get_connection_service)):
+    try:
+        connection = await service.get_connection(user_id)
+        return Response(status=200, message="Connection retrieved successfully", value=connection)
+    except Exception as e:
+        return Response(status=500, message=str(e))
+
 @router.post('/special-days/{user_id}')
 async def add_special_days(user_id: str, special_day: SpecialDayBase, db: Session = Depends(get_db)):
     try:

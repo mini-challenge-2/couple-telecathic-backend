@@ -36,3 +36,12 @@ class ConnectionRepository:
         partner = partner.__dict__
         del partner['_sa_instance_state']
         return partner
+
+    async def get_connection(self, user_id: str):
+        connection = self.db.query(Connection).filter(Connection.user_id == user_id).first()
+        if not connection:
+            return Response(status=404, message="Connection not found")
+
+        connection = connection.__dict__
+        del connection['_sa_instance_state']
+        return connection

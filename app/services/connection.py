@@ -9,3 +9,6 @@ class ConnectionService:
 
     async def get_couple_data(self, user_id: str):
         return await self.repository.get_couple_data(user_id)
+
+    async def get_connection(self, user_id: str):
+        return await self.repository.get_connection(user_id)
