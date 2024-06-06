@@ -1,26 +1,20 @@
-FROM python:3-alpine AS builder
- 
+# Use the official Python base image
+FROM python:3.10.11
+
+# Set the working directory in the container
 WORKDIR /app
- 
-RUN python3 -m venv venv
-ENV VIRTUAL_ENV=/app/venv
-ENV PATH="$VIRTUAL_ENV/bin:$PATH"
- 
+
+# Copy the requirements file to the working directory
 COPY requirements.txt .
-RUN pip install -r requirements.txt
- 
-# Stage 2
-FROM python:3-alpine AS runner
- 
-WORKDIR /app
- 
-COPY --from=builder /app/venv venv
-COPY main.py main.py
-COPY app app
- 
-ENV VIRTUAL_ENV=/app/venv
-ENV PATH="$VIRTUAL_ENV/bin:$PATH"
- 
+
+# Install the project dependencies
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Copy the rest of the application code to the working directory
+COPY . .
+
+# Expose the port on which the FastAPI application will run
 EXPOSE 8000
- 
-CMD [ "fastapi", "run" ]
+
+# Run the FastAPI application using Uvicorn
+CMD ["fastapi", "run", "--port", "1234"]
