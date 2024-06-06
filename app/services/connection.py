@@ -6,3 +6,6 @@ class ConnectionService:
 
     async def create_connection(self, connection: ConnectionBase):
         return await self.repository.create_connection(connection)
+
+    async def get_couple_data(self, user_id: str):
+        return await self.repository.get_couple_data(user_id)

@@ -23,4 +23,14 @@ class ConnectionRepository:
         self.db.add(db_connection)
         self.db.commit()
         self.db.refresh(db_connection)
-        return Response(status=200, message="Connected successfully")
+        return db_connection
+
+    async def get_couple_data(self, user_id: str):
+        couple = self.db.query(Connection).filter(Connection.user_id == user_id).first()
+        if not couple:
+            return Response(status=404, message="Couple not found")
+
+        partner = self.db.query(UserModel).filter(UserModel.id == couple.partner_id).first()
+        partner = partner.__dict__
+        del partner['_sa_instance_state']
+        return partner

@@ -18,7 +18,8 @@ router = APIRouter()
 @router.post('/register')
 async def create_user(user: UserBase, service: UserService = Depends(get_user_service)):
     try:
-        return await service.create_user(user)
+        user = await service.create_user(user)
+        return Response(status=201, message="User created successfully", value=user)
     except Exception as e:
         return Response(status=500, message=str(e))
 
@@ -26,6 +27,14 @@ async def create_user(user: UserBase, service: UserService = Depends(get_user_se
 async def connect(connection: ConnectionBase, service: ConnectionService = Depends(get_connection_service)):
     try:
         return await service.create_connection(connection)
+    except Exception as e:
+        return Response(status=500, message=str(e))
+
+@router.get('/couple-data/{user_id}')
+async def get_couple_data(user_id: str, service: ConnectionService = Depends(get_connection_service)):
+    try:
+        couple = await service.get_couple_data(user_id)
+        return Response(status=200, message="Couple data retrieved successfully", value=couple)
     except Exception as e:
         return Response(status=500, message=str(e))
 

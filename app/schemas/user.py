@@ -18,3 +18,9 @@ class User(UserBase):
 
     class Config:
         orm_mode = True
+
+class UserId(BaseModel):
+    id: str
+
+    class Config:
+        orm_mode = True

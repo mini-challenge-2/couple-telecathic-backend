@@ -27,4 +27,4 @@ class UserRepository:
         self.db.add(db_user)
         self.db.commit()
         self.db.refresh(db_user)
-        return Response(status=201, message="User created successfully", data=db_user)
+        return db_user
