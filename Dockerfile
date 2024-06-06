@@ -17,4 +17,4 @@ COPY . .
 EXPOSE 8000
 
 # Run the FastAPI application using Uvicorn
-CMD ["fastapi", "run", "--port", "1234"]
+CMD ["fastapi", "run"]
