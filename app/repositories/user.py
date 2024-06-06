@@ -1,6 +1,6 @@
 from app.schemas.user import UserBase
 from app.utils.dependency import generate_uuid
-from app.models.user import User as UserModel
+from app.models.user import User
 from app.schemas import Response
 
 class UserRepository:
@@ -9,7 +9,7 @@ class UserRepository:
 
     async def create_user(self, user: UserBase):
         __uuid = generate_uuid()
-        if (self.db.query(UserModel).filter(UserModel.email == user.email).first()) or (self.db.query(UserModel).filter(UserModel.username == user.username).first()):
+        if (self.db.query(User).filter(User.email == user.email).first()) or (self.db.query(User).filter(User.username == user.username).first()):
             return Response(status=400, message="User already exists")
 
         data = {
@@ -23,7 +23,7 @@ class UserRepository:
             "longitude": user.longitude
         }
 
-        db_user = UserModel(**data)
+        db_user = User(**data)
         self.db.add(db_user)
         self.db.commit()
         self.db.refresh(db_user)
