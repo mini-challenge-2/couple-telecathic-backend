@@ -23,6 +23,8 @@ class ConnectionRepository:
         self.db.add(db_connection)
         self.db.commit()
         self.db.refresh(db_connection)
+        db_connection = db_connection.__dict__
+        del db_connection['_sa_instance_state']
         return db_connection
 
     async def get_couple_data(self, user_id: str):
