@@ -27,7 +27,7 @@ def upgrade() -> None:
         sa.Column('username', sa.String(20), unique=True, nullable=False),
         sa.Column('sex', sa.Enum(Sex), nullable=False),
         sa.Column('email', sa.String(50), unique=True, nullable=False),
-        sa.Column('birth', sa.Date, nullable=False),
+        sa.Column('birth', sa.String(50), nullable=False),
         sa.Column('latitude', sa.Float, nullable=False),
         sa.Column('longitude', sa.Float, nullable=False),
         sa.Column('created_at', sa.DateTime(timezone=True), server_default=sa.func.now()),

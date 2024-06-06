@@ -1,6 +1,5 @@
 from pydantic import BaseModel
 from datetime import datetime
-from datetime import date
 from app.utils.enum import Sex
 
 class UserBase(BaseModel):
@@ -8,7 +7,7 @@ class UserBase(BaseModel):
     username: str
     sex: Sex
     email: str
-    birth: date
+    birth: str
     latitude: float
     longitude: float
 
