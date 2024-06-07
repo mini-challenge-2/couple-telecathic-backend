@@ -18,7 +18,7 @@ from .dependencies import get_interaction_service
 router = APIRouter()
 
 
-@router.post('/register')
+@router.post('/register', description="Register a new user")
 async def create_user(user: UserBase, service: UserService = Depends(get_user_service)):
     try:
         user = await service.create_user(user)
@@ -26,14 +26,14 @@ async def create_user(user: UserBase, service: UserService = Depends(get_user_se
     except Exception as e:
         return Response(status=500, message=str(e))
 
-@router.post('/connect')
+@router.post('/connect', description="Connect with couple")
 async def connect(connection: ConnectionBase, service: ConnectionService = Depends(get_connection_service)):
     try:
         return await service.create_connection(connection)
     except Exception as e:
         return Response(status=500, message=str(e))
 
-@router.get('/couple-data/{user_id}')
+@router.get('/couple-data/{user_id}', description="Get couple data by user id")
 async def get_couple_data(user_id: str, service: ConnectionService = Depends(get_connection_service)):
     try:
         couple = await service.get_couple_data(user_id)
@@ -41,7 +41,7 @@ async def get_couple_data(user_id: str, service: ConnectionService = Depends(get
     except Exception as e:
         return Response(status=500, message=str(e))
 
-@router.get('/connection/{user_id}')
+@router.get('/connection/{user_id}', description="Get connection by user id")
 async def get_connection(user_id: str, service: ConnectionService = Depends(get_connection_service)):
     try:
         connection = await service.get_connection(user_id)
@@ -49,7 +49,7 @@ async def get_connection(user_id: str, service: ConnectionService = Depends(get_
     except Exception as e:
         return Response(status=500, message=str(e))
 
-@router.post('/special-days/{user_id}')
+@router.post('/special-days/{user_id}', description="Add special days")
 async def add_special_days(user_id: str, special_day: SpecialDayBase, db: Session = Depends(get_db)):
     try:
         connection = db.query(Connection).filter(Connection.user_id == user_id).first()
@@ -72,7 +72,7 @@ async def add_special_days(user_id: str, special_day: SpecialDayBase, db: Sessio
     except Exception as e:
         return Response(status=500, message=str(e))
 
-@router.post('/interactions')
+@router.post('/interactions', description="Create interaction")
 async def create_interaction(interaction: InteractionBase, service: InteractionService = Depends(get_interaction_service)):
     try:
         interaction = await service.create_interaction(interaction)
