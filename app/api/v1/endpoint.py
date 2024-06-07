@@ -28,6 +28,8 @@ async def create_user(user: UserBase, service: UserService = Depends(get_user_se
 async def get_registered_device(user_id: str, service: UserService = Depends(get_user_service)):
     try:
         device_token = await service.get_registered_device(user_id)
+        if device_token is None:
+            return Response(status=404, message="Device token not found")
         return Response(status=200, message="Device token retrieved successfully", value=device_token)
     except Exception as e:
         return Response(status=500, message=str(e))
@@ -43,7 +45,10 @@ async def register_device(user_device: UserDevice, service: UserService = Depend
 @router.post('/connect', description="Connect with couple")
 async def connect(connection: ConnectionBase, service: ConnectionService = Depends(get_connection_service)):
     try:
-        return await service.create_connection(connection)
+        connection = await service.create_connection(connection)
+        if connection is None:
+            return Response(status=404, message="Connection not found")
+        return Response(status=201, message="Connection created successfully", value=connection)
     except Exception as e:
         return Response(status=500, message=str(e))
 
@@ -51,6 +56,8 @@ async def connect(connection: ConnectionBase, service: ConnectionService = Depen
 async def get_couple_data(user_id: str, service: ConnectionService = Depends(get_connection_service)):
     try:
         couple = await service.get_couple_data(user_id)
+        if couple is None:
+            return Response(status=404, message="Couple data not found")
         return Response(status=200, message="Couple data retrieved successfully", value=couple)
     except Exception as e:
         return Response(status=500, message=str(e))
@@ -59,6 +66,8 @@ async def get_couple_data(user_id: str, service: ConnectionService = Depends(get
 async def get_connection(user_id: str, service: ConnectionService = Depends(get_connection_service)):
     try:
         connection = await service.get_connection(user_id)
+        if connection is None:
+            return Response(status=404, message="Connection not found")
         return Response(status=200, message="Connection retrieved successfully", value=connection)
     except Exception as e:
         return Response(status=500, message=str(e))
