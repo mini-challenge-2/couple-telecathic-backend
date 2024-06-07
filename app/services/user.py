@@ -9,3 +9,6 @@ class UserService:
 
     async def register_device(self, user_id: str, token: str):
         return await self.repository.register_device(user_id, token)
+
+    async def get_registered_device(self, user_id: str):
+        return await self.repository.get_registered_device(user_id)
