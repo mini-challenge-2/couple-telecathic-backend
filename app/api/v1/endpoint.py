@@ -43,7 +43,10 @@ async def register_device(user_device: UserDevice, service: UserService = Depend
 @router.post('/connect', description="Connect with couple")
 async def connect(connection: ConnectionBase, service: ConnectionService = Depends(get_connection_service)):
     try:
-        return await service.create_connection(connection)
+        connection = await service.create_connection(connection)
+        if connection is None:
+            return Response(status=404, message="Connection not found")
+        return Response(status=201, message="Connection created successfully", value=connection)
     except Exception as e:
         return Response(status=500, message=str(e))
 

@@ -12,7 +12,7 @@ class ConnectionRepository:
         partner = self.db.query(UserModel).filter(UserModel.id == connection.partner_id).first()
 
         if not user or not partner:
-            return Response(status=404, message="User not found")
+            return None
 
         data = {
             "user_id": user.id,
@@ -30,7 +30,7 @@ class ConnectionRepository:
     async def get_couple_data(self, user_id: str):
         couple = self.db.query(Connection).filter(Connection.user_id == user_id).first()
         if not couple:
-            return Response(status=404, message="Couple not found")
+            return None
 
         partner = self.db.query(UserModel).filter(UserModel.id == couple.partner_id).first()
         partner = partner.__dict__
@@ -40,7 +40,7 @@ class ConnectionRepository:
     async def get_connection(self, user_id: str):
         connection = self.db.query(Connection).filter(Connection.user_id == user_id).first()
         if not connection:
-            return Response(status=404, message="Connection not found")
+            return None
 
         connection = connection.__dict__
         del connection['_sa_instance_state']
