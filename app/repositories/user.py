@@ -49,3 +49,14 @@ class UserRepository:
         db_device_token = db_device_token.__dict__
         del db_device_token['_sa_instance_state']
         return db_device_token
+
+    async def get_registered_device(self, user_id: str):
+        user = self.db.query(User).filter(User.id == user_id).first()
+        if not user:
+            return Response(status=404, message="User not found")
+
+        device_token = self.db.query(UserDevice).filter(UserDevice.user_id == user_id).first()
+        if not device_token:
+            return Response(status=404, message="Device token not found")
+        
+        return device_token
