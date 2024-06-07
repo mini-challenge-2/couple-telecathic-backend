@@ -6,3 +6,6 @@ class UserService:
 
     async def create_user(self, user: UserBase):
         return await self.repository.create_user(user)
+
+    async def register_device(self, user_id: str, token: str):
+        return await self.repository.register_device(user_id, token)

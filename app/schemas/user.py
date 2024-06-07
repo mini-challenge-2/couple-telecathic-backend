@@ -23,3 +23,10 @@ class UserId(BaseModel):
 
     class Config:
         orm_mode = True
+
+class UserDevice(BaseModel):
+    user_id: str
+    token: str
+
+    class Config:
+        orm_mode = True
