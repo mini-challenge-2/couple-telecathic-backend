@@ -54,6 +54,8 @@ async def connect(connection: ConnectionBase, service: ConnectionService = Depen
 async def get_couple_data(user_id: str, service: ConnectionService = Depends(get_connection_service)):
     try:
         couple = await service.get_couple_data(user_id)
+        if couple is None:
+            return Response(status=404, message="Couple data not found")
         return Response(status=200, message="Couple data retrieved successfully", value=couple)
     except Exception as e:
         return Response(status=500, message=str(e))
