@@ -26,6 +26,9 @@ async def create_user(user: UserBase, service: UserService = Depends(get_user_se
     except Exception as e:
         return Response(status=500, message=str(e))
 
+# @router.post('/register-device', description="Register device token")
+
+
 @router.post('/connect', description="Connect with couple")
 async def connect(connection: ConnectionBase, service: ConnectionService = Depends(get_connection_service)):
     try:

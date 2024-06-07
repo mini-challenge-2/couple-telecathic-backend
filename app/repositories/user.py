@@ -30,3 +30,5 @@ class UserRepository:
         db_user = db_user.__dict__
         del db_user['_sa_instance_state']
         return db_user
+
+    # async def register_device(self, user: )
