@@ -1,4 +1,5 @@
 from app.schemas.user import UserBase
+from app.schemas.user import UserDevice
 from app.utils.dependency import generate_uuid
 from app.models.user import User
 from app.schemas import Response
@@ -31,4 +32,11 @@ class UserRepository:
         del db_user['_sa_instance_state']
         return db_user
 
-    # async def register_device(self, user: )
+    async def register_device(self, user: UserDevice):
+        user = self.db.query(User).filter(User.id == user.user_id).first()
+        if not user:
+            return Response(status=404, message="User not found")
+
+        user.device_token = user.device_token
+        self.db.commit()
+        # return 
