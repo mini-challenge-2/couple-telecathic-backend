@@ -1,20 +1,17 @@
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
-from app.schemas.user import UserBase
+from app.schemas.user import UserBase, UserDevice
 from app.schemas.connection import ConnectionBase
-from app.models.connection import Connection
-from app.db import get_db
-from app.schemas import Response
 from app.schemas.special_day import SpecialDayBase
+from app.schemas.interaction import InteractionBase
+from app.schemas import Response
+from app.models.connection import Connection
 from app.models.special_day import SpecialDay
-from app.schemas.user import UserDevice
+from app.db import get_db
 from app.services.user import UserService
 from app.services.connection import ConnectionService
-from app.schemas.interaction import InteractionBase
 from app.services.interaction import InteractionService
-from .dependencies import get_user_service
-from .dependencies import get_connection_service
-from .dependencies import get_interaction_service
+from .dependencies import get_user_service, get_connection_service, get_interaction_service
 
 router = APIRouter()
 
