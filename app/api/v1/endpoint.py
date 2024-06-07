@@ -27,6 +27,14 @@ async def create_user(user: UserBase, service: UserService = Depends(get_user_se
     except Exception as e:
         return Response(status=500, message=str(e))
 
+@router.get('/register-device/{user_id}', description="Get registered device token")
+async def get_registered_device(user_id: str, service: UserService = Depends(get_user_service)):
+    try:
+        device_token = await service.get_registered_device(user_id)
+        return Response(status=200, message="Device token retrieved successfully", value=device_token)
+    except Exception as e:
+        return Response(status=500, message=str(e))
+
 @router.post('/register-device', description="Register device token")
 async def register_device(user_device: UserDevice, service: UserService = Depends(get_user_service)):
     try:
@@ -34,7 +42,6 @@ async def register_device(user_device: UserDevice, service: UserService = Depend
         return Response(status=201, message="Device token registered successfully")
     except Exception as e:
         return Response(status=500, message=str(e))
-
 
 @router.post('/connect', description="Connect with couple")
 async def connect(connection: ConnectionBase, service: ConnectionService = Depends(get_connection_service)):
