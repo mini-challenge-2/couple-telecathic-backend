@@ -1,7 +1,7 @@
 from app.schemas.user import UserBase
-from app.schemas.user import UserDevice
 from app.utils.dependency import generate_uuid
 from app.models.user import User
+from app.models.user import UserDevice
 from app.schemas import Response
 
 class UserRepository:
@@ -39,7 +39,7 @@ class UserRepository:
 
         data = {
             "user_id": user.id,
-            "token": user.token
+            "token": token
         }
 
         db_device_token = UserDevice(**data)

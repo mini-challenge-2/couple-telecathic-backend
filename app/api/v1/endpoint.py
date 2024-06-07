@@ -31,7 +31,7 @@ async def create_user(user: UserBase, service: UserService = Depends(get_user_se
 async def register_device(user_device: UserDevice, service: UserService = Depends(get_user_service)):
     try:
         user_device = await service.register_device(user_device.user_id, user_device.token)
-        return Response(status=201, message="Device token registered successfully", value=user_device)
+        return Response(status=201, message="Device token registered successfully")
     except Exception as e:
         return Response(status=500, message=str(e))
 
