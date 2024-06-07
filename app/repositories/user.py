@@ -32,11 +32,20 @@ class UserRepository:
         del db_user['_sa_instance_state']
         return db_user
 
-    async def register_device(self, user: UserDevice):
-        user = self.db.query(User).filter(User.id == user.user_id).first()
+    async def register_device(self, user_id: str, token: str):
+        user = self.db.query(User).filter(User.id == user_id).first()
         if not user:
             return Response(status=404, message="User not found")
 
-        user.device_token = user.device_token
+        data = {
+            "user_id": user.id,
+            "token": user.token
+        }
+
+        db_device_token = UserDevice(**data)
+        self.db.add(db_device_token)
         self.db.commit()
-        # return 
+        self.db.refresh(db_device_token)
+        db_device_token = db_device_token.__dict__
+        del db_device_token['_sa_instance_state']
+        return db_device_token
