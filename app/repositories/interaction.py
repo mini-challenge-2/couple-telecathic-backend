@@ -43,6 +43,6 @@ class InteractionRepository:
         }
 
         response = requests.post(url, json=payload, headers=headers)
-        if response.status_code == 200:
-            return response.status_code
-        return 500
+        if response.status_code == 500:
+            return response
+        return 200

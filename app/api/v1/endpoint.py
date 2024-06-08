@@ -1,9 +1,9 @@
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
 from app.schemas.user import UserBase, UserDevice
 from app.schemas.connection import ConnectionBase
 from app.schemas.special_day import SpecialDayBase
-from app.schemas.interaction import InteractionBase
+from app.schemas.interaction import InteractionBase, NotificationRequest
 from app.schemas import Response
 from app.models.connection import Connection
 from app.models.special_day import SpecialDay
@@ -112,5 +112,15 @@ async def create_interaction(interaction: InteractionBase, service: InteractionS
     try:
         interaction = await service.create_interaction(interaction)
         return Response(status=201, message="Interaction created successfully", value=interaction)
+    except Exception as e:
+        return Response(status=500, message=str(e))
+
+@router.post('/send-interactions', description="Send notification to couple")
+async def send_interaction(notification: NotificationRequest, service: InteractionService = Depends(get_interaction_service)):
+    try:
+        notification = await service.send_interaction(notification)
+        if notification == 500:
+            return Response(status=notification.status_code, message="Failed sending notification", value=notification.json())
+        return Response(status=200, message="Notification sent successfully")
     except Exception as e:
         return Response(status=500, message=str(e))
