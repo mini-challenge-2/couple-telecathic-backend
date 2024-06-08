@@ -19,3 +19,5 @@ class InteractionRepository:
         db_interaction = db_interaction.__dict__
         del db_interaction['_sa_instance_state']
         return db_interaction
+
+    

@@ -11,7 +11,7 @@ class UserRepository:
     async def create_user(self, user: UserBase):
         __uuid = generate_uuid()
         if (self.db.query(User).filter(User.email == user.email).first()) or (self.db.query(User).filter(User.username == user.username).first()):
-            return Response(status=400, message="User already exists")
+            return 400
 
         data = {
             "id": __uuid,
@@ -35,7 +35,7 @@ class UserRepository:
     async def register_device(self, user_id: str, token: str):
         user = self.db.query(User).filter(User.id == user_id).first()
         if not user:
-            return Response(status=404, message="User not found")
+            return 404
 
         data = {
             "user_id": user.id,

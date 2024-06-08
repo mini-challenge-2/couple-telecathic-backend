@@ -20,6 +20,8 @@ router = APIRouter()
 async def create_user(user: UserBase, service: UserService = Depends(get_user_service)):
     try:
         user = await service.create_user(user)
+        if user == 400:
+            return Response(status=400, message="User already exists")
         return Response(status=201, message="User created successfully", value=user)
     except Exception as e:
         return Response(status=500, message=str(e))
@@ -46,6 +48,8 @@ async def get_registered_device(user_id: str, service: UserService = Depends(get
 async def register_device(user_device: UserDevice, service: UserService = Depends(get_user_service)):
     try:
         user_device = await service.register_device(user_device.user_id, user_device.token)
+        if user_device == 404:
+            Response(status=404, message="User not found")
         return Response(status=201, message="Device token registered successfully")
     except Exception as e:
         return Response(status=500, message=str(e))
