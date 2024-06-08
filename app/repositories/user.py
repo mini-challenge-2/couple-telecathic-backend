@@ -58,12 +58,16 @@ class UserRepository:
         device_token = self.db.query(UserDevice).filter(UserDevice.user_id == user_id).first()
         if not device_token:
             return None
-        
+
+        device_token = device_token.__dict__
+        del device_token['_sa_instance_state']
         return device_token
 
     async def get_user(self, apple_id: str):
         user = self.db.query(User).filter(User.apple_id == apple_id).first()
         if not user:
             return None
-         
+
+        user = user.__dict__
+        del user['_sa_instance_state']
         return user
