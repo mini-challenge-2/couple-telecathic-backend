@@ -2,6 +2,7 @@ import random
 import string
 import time
 import jwt
+from cryptography.hazmat.primitives import serialization
 
 def generate_uuid(length=8):
     characters = string.ascii_letters + string.digits
@@ -19,3 +20,11 @@ def generate_jwt_token(key_id: str, team_id: str, private_key: str):
     }
     token = jwt.encode(payload, private_key, algorithm="ES256", headers=headers)
     return token
+
+def load_private_key(path: str):
+    with open(path, 'rb') as key_file:
+        private_key = serialization.load_pem_private_key(
+            key_file.read(),
+            password=None,
+        )
+    return private_key
