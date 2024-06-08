@@ -25,7 +25,7 @@ async def create_user(user: UserBase, service: UserService = Depends(get_user_se
         return Response(status=500, message=str(e))
 
 @router.get('/user/{apple_id}', description="Get user by apple id")
-async def get_user(apple_id: str, service: UserService = Depends(get_user_service)):
+async def get_user_by_apple_id(apple_id: str, service: UserService = Depends(get_user_service)):
     try:
         user = await service.get_user(apple_id)
         return Response(status=200, message="Successfuly retrieve user", value=user)

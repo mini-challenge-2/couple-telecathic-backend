@@ -65,5 +65,7 @@ class UserRepository:
         user = self.db.query(User).filter(User.apple_id == apple_id).first()
         if not user:
             return None
-        
+         
+        user = user.__dict__
+        del user['_sa_instance_state']
         return user
