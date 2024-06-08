@@ -12,3 +12,6 @@ class UserService:
 
     async def get_registered_device(self, user_id: str):
         return await self.repository.get_registered_device(user_id)
+    
+    async def get_user(self, apple_id: str):
+        return await self.repository.get_user(apple_id)

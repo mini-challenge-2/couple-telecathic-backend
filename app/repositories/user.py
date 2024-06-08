@@ -60,3 +60,10 @@ class UserRepository:
             return None
         
         return device_token
+
+    async def get_user(self, apple_id: str):
+        user = self.db.query(User).filter(User.apple_id == apple_id).first()
+        if not user:
+            return None
+        
+        return user
