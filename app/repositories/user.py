@@ -66,6 +66,4 @@ class UserRepository:
         if not user:
             return None
          
-        user = user.__dict__
-        del user['_sa_instance_state']
         return user
