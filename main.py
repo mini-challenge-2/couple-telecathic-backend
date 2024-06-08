@@ -4,7 +4,6 @@ from app.api.v1 import router
 
 app = FastAPI()
 
-
 @app.get("/")
 async def root():
     return Response(status=200, message="success")
