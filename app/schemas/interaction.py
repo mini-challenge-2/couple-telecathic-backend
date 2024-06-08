@@ -12,3 +12,8 @@ class Interaction(InteractionBase):
 
     class Config:
         orm_mode = True
+
+class NotificationRequest(BaseModel):
+    token: str
+    title: str
+    body: str

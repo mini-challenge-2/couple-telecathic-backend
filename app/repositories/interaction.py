@@ -1,5 +1,6 @@
 from app.schemas.interaction import InteractionBase
 from app.models.interaction import Interaction
+from app.schemas.interaction import NotificationRequest
 
 class InteractionRepository:
     def __init__(self, db):
@@ -20,4 +21,5 @@ class InteractionRepository:
         del db_interaction['_sa_instance_state']
         return db_interaction
 
-    
+    async def send_interaction(self, request: NotificationRequest):
+        pass
