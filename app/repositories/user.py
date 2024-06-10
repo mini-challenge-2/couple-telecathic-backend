@@ -59,7 +59,13 @@ class UserRepository:
         if not device_token:
             return None
 
-        return device_token
+        devices = []
+        for device in device_token:
+            device = device.__dict__
+            del device['_sa_instance_state']
+            devices.append(device)
+
+        return devices
 
     async def get_user(self, apple_id: str):
         user = self.db.query(User).filter(User.apple_id == apple_id).first()
