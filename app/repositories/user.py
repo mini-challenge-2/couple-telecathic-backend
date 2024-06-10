@@ -59,8 +59,6 @@ class UserRepository:
         if not device_token:
             return None
 
-        device_token = device_token.__dict__
-        del device_token['_sa_instance_state']
         return device_token
 
     async def get_user(self, apple_id: str):
