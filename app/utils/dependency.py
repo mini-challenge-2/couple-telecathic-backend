@@ -3,6 +3,7 @@ import string
 import time
 import jwt
 from cryptography.hazmat.primitives import serialization
+from cryptography.hazmat.backends import default_backend
 
 def generate_uuid(length=8):
     characters = string.ascii_letters + string.digits
@@ -16,7 +17,7 @@ def generate_jwt_token(key_id: str, team_id: str, private_key: str):
     }
     payload = {
         "iss": team_id,
-        "iat": int(time.time())
+        "iat": time.time()
     }
     token = jwt.encode(payload, private_key, algorithm="ES256", headers=headers)
     return token
@@ -26,5 +27,6 @@ def load_private_key(path: str):
         private_key = serialization.load_pem_private_key(
             key_file.read(),
             password=None,
+            backend=default_backend()
         )
     return private_key

@@ -3,6 +3,9 @@ from app.models.interaction import Interaction
 from app.schemas.interaction import NotificationRequest
 from app.utils.dependency import generate_jwt_token, load_private_key
 import requests
+import aiohttp
+import certifi
+import ssl
 
 class InteractionRepository:
     def __init__(self, db):
@@ -42,7 +45,13 @@ class InteractionRepository:
             }
         }
 
-        response = requests.post(url, json=payload, headers=headers)
-        if response.status_code == 500:
-            return response
-        return 200
+        ssl_context = ssl.create_default_context(cafile=certifi.where())
+
+        async with aiohttp.ClientSession() as session:
+            async with session.post(url, json=payload, headers=headers, ssl=ssl_context) as response:
+                print(response)
+                if response.status == 200:
+                    return 200
+                else:
+                    error_detail = await response.text()
+                    return error_detail

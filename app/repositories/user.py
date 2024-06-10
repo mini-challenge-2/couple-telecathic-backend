@@ -55,7 +55,7 @@ class UserRepository:
         if not user:
             return None
 
-        device_token = self.db.query(UserDevice).filter(UserDevice.user_id == user_id).first()
+        device_token = self.db.query(UserDevice).filter(UserDevice.user_id == user_id).all()
         if not device_token:
             return None
 

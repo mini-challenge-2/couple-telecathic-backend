@@ -119,7 +119,7 @@ async def create_interaction(interaction: InteractionBase, service: InteractionS
 async def send_interaction(notification: NotificationRequest, service: InteractionService = Depends(get_interaction_service)):
     try:
         notification = await service.send_interaction(notification)
-        if notification == 500:
+        if notification != 200:
             return Response(status=notification.status_code, message="Failed sending notification", value=notification.json())
         return Response(status=200, message="Notification sent successfully")
     except Exception as e:
